@@ -5,17 +5,20 @@ const path = require('path');
 
 const app = express();
 
+// Assets Config
+app.use(express.static('public'));
 
-app.set("views",path.join(__dirname,'/resources/views'));
-app.set("view engine","ejs");
-
-
+//route
 app.get('/',(req,res,next)=>{
     res.render('home');
     
 })
 
+//Set Templet Engine
 app.use(expressLayouts);
+app.set("views",path.join(__dirname,'/resources/views'));
+app.set("view engine","ejs");
+
 
 
 
