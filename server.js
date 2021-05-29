@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const session = require("express-session")
 const flash = require('express-flash');
 const MongoDbStore = require('connect-mongodb-session')(session);
+const passport = require('passport');
 
 const app = express();
 
@@ -15,6 +16,8 @@ const app = express();
 
 // Database connection
 const MONGODB_URI = 'mongodb+srv://Darshan_1110:Darshan1110@cluster0.r1wui.mongodb.net/Pizza';
+
+
 
 //session store in db
 const store = new MongoDbStore({
@@ -31,17 +34,25 @@ app.use(session({
   cookie:{maxAge:1000*60*60*24}//24 hr
 }));
 
+// passport init
+const passportInit = require('./App/config/passport');
+passportInit.init(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+
 //setting cookie
 app.use(flash());
 
 // Assets Config
 app.use(express.static("public"));
+app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 
 //globalMiddelware
 app.use((req,res,next)=>{
 
   res.locals.session = req.session;
+  res.locals.user = req.user
   next();
 
 })
