@@ -27,7 +27,7 @@ exports.postLogin = (req, res, next) => {
                  return next(err)
              }
 
-             return res.redirect('/')
+             return res.redirect('/cart')
          })
      })(req, res, next)
   

@@ -1877,6 +1877,13 @@ addToCart.forEach(function (btn) {
     updateCart(cartPizza);
   });
 });
+var alertMsg = document.querySelector('#success-alert');
+
+if (alertMsg) {
+  setTimeout(function () {
+    alertMsg.remove();
+  }, 2000);
+}
 
 /***/ }),
 
