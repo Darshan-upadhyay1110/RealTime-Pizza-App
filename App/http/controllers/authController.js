@@ -6,7 +6,7 @@ exports.getLogin = (req, res, next) => {
   res.render("Auth/login");
 };
 exports.postLogin = (req, res, next) => {
-    const { email, password }   = req.body
+    const { email, password } = req.body
     // Validate request 
      if(!email || !password) {
          req.flash('error', 'All fields are required')
@@ -28,8 +28,10 @@ exports.postLogin = (req, res, next) => {
              }
              if(req.user.role === 'admin')
              {
-               return res.redirect('admin/orders');
+               console.log("really fuck");
+               return res.redirect('/admin/orders');
              }
+             console.log("really fuck custbro");
              return res.redirect('/customer/orders')
          })
      })(req, res, next)

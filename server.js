@@ -9,6 +9,7 @@ const session = require("express-session")
 const flash = require('express-flash');
 const MongoDbStore = require('connect-mongodb-session')(session);
 const passport = require('passport');
+const Emmiter = require('events')
 
 const app = express();
 
@@ -24,6 +25,11 @@ const store = new MongoDbStore({
   uri: MONGODB_URI,
   collection: "sessions",
 });
+
+//event Emmiter
+let eventEmmiter = new Emmiter()
+app.set('eventEmmiter',eventEmmiter);
+
 
 //sessionconfig
 app.use(session({
@@ -74,9 +80,23 @@ const PORT = process.env.PORT || 3000;
 mongoose
   .connect(MONGODB_URI)
   .then((result) => {
-    app.listen(PORT, () => {
+   const server =  app.listen(PORT, () => {
         console.log(`I am Server at ${PORT}`);
       });
+      const io = require('socket.io')(server);
+      io.on('connection', socket => {  
+        // console.log('connected');
+        // console.log(socket.id);
+        socket.on('join',(orderId)=>{
+          // console.log(orderId);
+          socket.join(orderId);
+        })
+      })
+
+      eventEmmiter.on('orderUpdated',(data)=>{
+        io.to(`order_${data.id}`).emit('orderUpdated',data)
+
+      })
   })
   .catch((err) => {
     console.log(err);

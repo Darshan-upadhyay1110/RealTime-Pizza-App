@@ -3,7 +3,9 @@ const axios = require('axios');
 
 exports.initAdmin = ()=>{
 
-    const orderTableBody = document.querySelector('#orderTableBody');
+    const orderTableBody = document.getElementById('orderTableBody');
+    
+    // console.log(orderTableBody);
     let orders = [];
     let markup;
     // console.log("init");
@@ -15,11 +17,14 @@ exports.initAdmin = ()=>{
     }).then(res=>{
         // console.log(res.data);
         orders = res.data;
+        // console.log(orders);
         markup = genrateMarkup(orders)
+        // console.log(markup);
         orderTableBody.innerHTML = markup;
     }).catch(err=>{
         console.log(err);
     })
+
     function renderItems(items) {
         let parsedItems = Object.values(items)
         return parsedItems.map((menuItem) => {
@@ -79,6 +84,7 @@ exports.initAdmin = ()=>{
                 `
             }).join('')
     }
+   
 
 }
 

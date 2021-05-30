@@ -7,7 +7,7 @@ exports.getAdminOrders = (req,res,next)=>{
         if(req.xhr)
         {
             // console.log("ajex");
-            // console.log(orders);
+            // console.log(result,"heeekei");
             return res.json(result);
         }
         else{
@@ -17,4 +17,18 @@ exports.getAdminOrders = (req,res,next)=>{
         
     })
     
+}
+
+exports.postUpdateStatusAdmin = (req,res,next)=>{
+
+        Order.updateOne({_id:req.body.orderId},{ status:req.body.status },(err,data)=>{
+            if(err){
+                return res.redirect('/admin/orders')
+            }
+            //send emmit event
+            const eventEmmiter = req.app.get('eventEmmiter');
+            eventEmmiter.emit('orderUpdated',{id:req.body.orderId , status:req.body.status})
+           return res.redirect('/admin/orders')
+        })
+
 }

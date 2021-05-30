@@ -31,8 +31,10 @@ route.post('/update-cart',cartController.updateCart);
 //customer routes
 route.post('/order',isAuth.auth,orderController.postOrder);
 route.get('/customer/orders',isAuth.auth,orderController.getCustomerOrders)
+route.get('/customer/orders/:id',isAuth.auth,orderController.getStatusOfPizza)
 
 //admin routes
 route.get('/admin/orders',adminAuth.auth,adminOrderController.getAdminOrders);
+route.post('/admin/order/status',adminAuth.auth,adminOrderController.postUpdateStatusAdmin);
 
 module.exports = route;

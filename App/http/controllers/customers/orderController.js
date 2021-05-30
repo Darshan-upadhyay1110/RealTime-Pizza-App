@@ -37,3 +37,17 @@ exports.getCustomerOrders = async (req, res, next) => {
   res.render('customers/orders', { orders: orders, moment: moment })
   
 };
+
+
+exports.getStatusOfPizza = async (req,res,next)=>{
+  // console.log(req.params.id);
+
+  const order = await Order.findById(req.params.id) 
+  //auth of login user only can see there status
+
+  if(req.user._id.toString() === order.customerId.toString()){
+    return res.render('customers/pizzaStatus',{order:order})
+
+  }
+  return res.redirect('/')
+}
