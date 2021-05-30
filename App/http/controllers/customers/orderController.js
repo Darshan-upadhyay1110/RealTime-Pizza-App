@@ -32,7 +32,8 @@ exports.postOrder = (req, res, next) => {
 exports.getCustomerOrders = async (req, res, next) => {
   const orders = await Order.find({ customerId: req.user._id }, null,
     { sort: { 'createdAt': -1 } } )
-  console.log(orders);
+  // console.log(orders);
+  res.header('Cache-Control','no-cache,private,no-store,must-revalidate,pre-check=0,post-check=0,max-stale=0')
   res.render('customers/orders', { orders: orders, moment: moment })
   
 };

@@ -1,6 +1,8 @@
 const axios = require('axios');
 const Noty = require('noty')
 
+const admin = require('./admin');
+
 let addToCart = document.querySelectorAll('.add-to-cart');
 // console.log(addToCart);
 let pizzaCounter = document.getElementById('pizzaCounter');
@@ -44,3 +46,5 @@ if(alertMsg) {
         alertMsg.remove()
     }, 2000)
 }
+// console.log("init");
+admin.initAdmin();

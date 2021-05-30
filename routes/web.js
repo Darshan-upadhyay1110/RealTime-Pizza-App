@@ -5,8 +5,11 @@ const cartController = require('../App/http/controllers/customers/cartController
 const orderController = require('../App/http/controllers/customers/orderController')
 const adminOrderController = require('../App/http/controllers/admin/orderController');
 
+
+//Middelwear for url verificationa nd authantication
 const isGuest = require('../App/http/middlewares/guest');
 const isAuth = require('../App/http/middlewares/auth');
+const adminAuth = require('../App/http/middlewares/adminAut');
 
 const route = express.Router();
 
@@ -30,6 +33,6 @@ route.post('/order',isAuth.auth,orderController.postOrder);
 route.get('/customer/orders',isAuth.auth,orderController.getCustomerOrders)
 
 //admin routes
-route.get('/admin/orders',isAuth.auth,adminOrderController.getAdminOrders);
+route.get('/admin/orders',adminAuth.auth,adminOrderController.getAdminOrders);
 
 module.exports = route;
