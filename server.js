@@ -10,10 +10,14 @@ const flash = require('express-flash');
 const MongoDbStore = require('connect-mongodb-session')(session);
 const passport = require('passport');
 const Emmiter = require('events')
+const helmet = require('helmet');
+const compression = require('compression');
 
 const app = express();
 
-
+ //for safe heders
+ app.use(helmet())
+//  app.use(compression());
 
 // Database connection
 
