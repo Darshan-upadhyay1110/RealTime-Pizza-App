@@ -50,8 +50,7 @@ if (alertMsg) {
     alertMsg.remove();
   }, 2000);
 }
-// console.log("init");
-admin.initAdmin();
+
 
 //update status
 let statuses = document.querySelectorAll(".status_line");
@@ -99,14 +98,22 @@ updateStatus(order);
 
 //Socket Client Side
 let socket = io();
+// console.log("init");
+admin.initAdmin(socket);
  
-//join
+//join room created for cilent side changes
 if(order)
 {
     socket.emit('join',`order_${order._id}`)
 }
-
 //order_efbgiewubefninfdusiisnx - nameOfScoketRoom on server
+
+let adminPath = window.location.pathname
+console.log(adminPath);
+if(adminPath.includes('admin')){
+  socket.emit('join','adminRoom');
+}
+
 
 socket.on('orderUpdated',(data)=>{
   const updatedOrder = { ...order }

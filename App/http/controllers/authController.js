@@ -29,9 +29,9 @@ exports.postLogin = (req, res, next) => {
              if(req.user.role === 'admin')
              {
                console.log("really fuck");
-               return res.redirect('/admin/orders');
+              //  return res.redirect('/admin/orders');
              }
-             console.log("really fuck custbro");
+            //  console.log("really fuck custbro");
              return res.redirect('/customer/orders')
          })
      })(req, res, next)

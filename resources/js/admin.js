@@ -1,7 +1,9 @@
 const moment = require('moment');
 const axios = require('axios');
+const Noty = require('noty');
 
-exports.initAdmin = ()=>{
+
+exports.initAdmin = (socket)=>{
 
     const orderTableBody = document.getElementById('orderTableBody');
     
@@ -84,7 +86,21 @@ exports.initAdmin = ()=>{
                 `
             }).join('')
     }
-   
+  
+socket.on('orderPlaced',(order)=>{
+    new Noty({
+        type: "success",
+        timeout: 800,
+        text: "New Order",
+        progressBar: false,
+        //layout:'topLeft'
+      }).show();
+      orders.unshift(order);
+      orderTableBody.innerHTML = ''
+      orderTableBody.innerHTML = genrateMarkup(orders);
+
+})
+    
 
 }
 

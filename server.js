@@ -97,6 +97,10 @@ mongoose
         io.to(`order_${data.id}`).emit('orderUpdated',data)
 
       })
+      eventEmmiter.on('orderPlaced',(data)=>{
+        io.to(`adminRoom`).emit('orderPlaced',data)
+
+      })
   })
   .catch((err) => {
     console.log(err);
