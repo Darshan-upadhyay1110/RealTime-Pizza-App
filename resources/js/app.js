@@ -99,7 +99,7 @@ updateStatus(order);
 //Socket Client Side
 let socket = io();
 // console.log("init");
-admin.initAdmin(socket);
+
  
 //join room created for cilent side changes
 if(order)
@@ -109,8 +109,9 @@ if(order)
 //order_efbgiewubefninfdusiisnx - nameOfScoketRoom on server
 
 let adminPath = window.location.pathname
-console.log(adminPath);
+// console.log(adminPath);
 if(adminPath.includes('admin')){
+  admin.initAdmin(socket);
   socket.emit('join','adminRoom');
 }
 

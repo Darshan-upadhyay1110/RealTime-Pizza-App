@@ -1997,18 +1997,17 @@ var updateStatus = function updateStatus(order) {
 updateStatus(order); //Socket Client Side
 
 var socket = io(); // console.log("init");
-
-admin.initAdmin(socket); //join room created for cilent side changes
+//join room created for cilent side changes
 
 if (order) {
   socket.emit('join', "order_".concat(order._id));
 } //order_efbgiewubefninfdusiisnx - nameOfScoketRoom on server
 
 
-var adminPath = window.location.pathname;
-console.log(adminPath);
+var adminPath = window.location.pathname; // console.log(adminPath);
 
 if (adminPath.includes('admin')) {
+  admin.initAdmin(socket);
   socket.emit('join', 'adminRoom');
 }
 

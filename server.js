@@ -59,6 +59,7 @@ app.use((req,res,next)=>{
 
   res.locals.session = req.session;
   res.locals.user = req.user
+  // console.log(req.user);
   next();
 
 })
