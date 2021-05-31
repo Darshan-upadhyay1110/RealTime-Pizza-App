@@ -1,67 +1,96 @@
-const moment = require('moment');
-const axios = require('axios');
-const Noty = require('noty');
+const moment = require("moment");
+const axios = require("axios");
+const Noty = require("noty");
 
+exports.initAdmin = (socket) => {
+  const orderTableBody = document.getElementById("orderTableBody");
 
-exports.initAdmin = (socket)=>{
+  // console.log(orderTableBody);
+  let orders = [];
+  let markup;
+  // console.log("init");
 
-    const orderTableBody = document.getElementById('orderTableBody');
-    
-    // console.log(orderTableBody);
-    let orders = [];
-    let markup;
-    // console.log("init");
-
-    axios.get('/admin/orders',{
-        headers:{
-            "X-Requested-With": "XMLHttpRequest"
-        }
-    }).then(res=>{
-        // console.log(res.data);
-        orders = res.data;
-        // console.log(orders);
-        markup = genrateMarkup(orders)
-        // console.log(markup);
-        orderTableBody.innerHTML = markup;
-    }).catch(err=>{
-        console.log(err);
+  axios
+    .get("/admin/orders", {
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+      },
     })
+    .then((res) => {
+      // console.log(res.data);
+      orders = res.data;
+      // console.log(orders);
+      markup = genrateMarkup(orders);
+    //   console.log(markup);
+      orderTableBody.innerHTML = markup;
+   
+   
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
-    function renderItems(items) {
-        let parsedItems = Object.values(items)
-        return parsedItems.map((menuItem) => {
-            return `
-                <p>${ menuItem.item.name } - ${ menuItem.qty } pcs </p>
-            `
-        }).join('')
-      }
-    
-    function genrateMarkup(orders){
-        return orders.map(order => {
-            return `<tr>
+  function renderItems(items) {
+    let parsedItems = Object.values(items);
+    return parsedItems
+      .map((menuItem) => {
+        return `
+                <p>${menuItem.item.name} - ${menuItem.qty} pcs </p>
+            `;
+      })
+      .join("");
+  }
+
+  function genrateMarkup(orders) {
+    return orders
+      .map((order) => {
+        return `<tr>
                     <td class="border px-4 py-2 text-green-900">
-                        <p>${ order._id }</p>
-                        <div>${ renderItems(order.items) }</div>
+                        <p>${order._id}</p>
+                        <div>${renderItems(order.items)}</div>
                     </td>
-                    <td class="border px-4 py-2">${ order.customerId.name }</td>
-                    <td class="border px-4 py-2">${ order.address }</td>
+                    <td class="border px-4 py-2">${order.customerId.name}</td>
+                    <td class="border px-4 py-2">${order.address}</td>
                     <td class="border px-4 py-2">
                         <div class="inline-block relative w-64">
-                            <form action="/admin/order/status" method="POST">
-                                <input type="hidden" name="orderId" value="${ order._id }">
-                                <select name="status" onchange="this.form.submit()"
+                            <form action="/admin/order/status" method="POST" id="stateSelection${order._id}">
+                            
+                                <input type="hidden" name="orderId" value="${
+                                  order._id
+                                }">
+                                <select name="status" id="state${order._id}" onchange="this.form.submit()"
                                     class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
                                     <option value="order_placed"
-                                        ${ order.status === 'order_placed' ? 'selected' : '' }>
+                                        ${
+                                          order.status === "order_placed"
+                                            ? "selected"
+                                            : ""
+                                        }>
                                         Placed</option>
-                                    <option value="confirmed" ${ order.status === 'confirmed' ? 'selected' : '' }>
+                                    <option value="confirmed" ${
+                                      order.status === "confirmed"
+                                        ? "selected"
+                                        : ""
+                                    }>
                                         Confirmed</option>
-                                    <option value="prepared" ${ order.status === 'prepared' ? 'selected' : '' }>
+                                    <option id="prepared" value="prepared" ${
+                                      order.status === "prepared"
+                                        ? "selected"
+                                        : ""
+                                    }>
                                         Prepared</option>
-                                    <option value="delivered" ${ order.status === 'delivered' ? 'selected' : '' }>
+                                    <option value="delivered" ${
+                                      order.status === "delivered"
+                                        ? "selected"
+                                        : ""
+                                    }>
                                         Delivered
                                     </option>
-                                    <option value="completed" ${ order.status === 'completed' ? 'selected' : '' }>
+                                    <option value="completed" ${
+                                      order.status === "completed"
+                                        ? "selected"
+                                        : ""
+                                    }>
                                         Completed
                                     </option>
                                 </select>
@@ -77,30 +106,30 @@ exports.initAdmin = (socket)=>{
                         </div>
                     </td>
                     <td class="border px-4 py-2">
-                        ${ moment(order.createdAt).format('hh:mm A') }
+                        ${moment(order.createdAt).format("hh:mm A")}
                     </td>
                     <td class="border px-4 py-2">
-                        ${ order.paymentStatus ? 'paid' : 'Not paid' }
+                        ${order.paymentStatus ? "paid" : "Not paid"}
                     </td>
                 </tr>
-                `
-            }).join('')
-    }
+                `;
+      })
+      .join("");
+  }
   
-socket.on('orderPlaced',(order)=>{
+  socket.on("orderPlaced", (order) => {
     new Noty({
-        type: "success",
-        timeout: 800,
-        text: "New Order",
-        progressBar: false,
-        //layout:'topLeft'
-      }).show();
-      orders.unshift(order);
-      orderTableBody.innerHTML = ''
-      orderTableBody.innerHTML = genrateMarkup(orders);
+      type: "success",
+      timeout: 800,
+      text: "New Order",
+      progressBar: false,
+      //layout:'topLeft'
+    }).show();
+    orders.unshift(order);
+    orderTableBody.innerHTML = "";
+    orderTableBody.innerHTML = genrateMarkup(orders);
+  });
+  
+};
 
-})
-    
-
-}
 

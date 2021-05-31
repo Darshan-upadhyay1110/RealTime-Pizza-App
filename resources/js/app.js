@@ -95,6 +95,16 @@ element.classList.remove('current')
 
 updateStatus(order);
 
+//   const formObj = document.getElementById('stateSelection')
+// document.getElementById('state').addEventListener("change",myfunc);
+// function myfunc() {
+//   formObj.submit();
+
+
+
+
+
+
 
 //Socket Client Side
 let socket = io();
@@ -114,6 +124,8 @@ if(adminPath.includes('admin')){
   admin.initAdmin(socket);
   socket.emit('join','adminRoom');
 }
+
+
 
 
 socket.on('orderUpdated',(data)=>{

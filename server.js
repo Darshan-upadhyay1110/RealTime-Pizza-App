@@ -16,8 +16,8 @@ const compression = require('compression');
 const app = express();
 
  //for safe heders
- app.use(helmet())
-//  app.use(compression());
+//  app.use(helmet())
+ app.use(compression());
 
 // Database connection
 

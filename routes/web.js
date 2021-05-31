@@ -19,6 +19,7 @@ route.get('/',homeController.homePage);
 route.get('/login',isGuest.auth,authController.getLogin);
 route.post('/login',authController.postLogin);
 route.post('/logout',authController.postLogout);
+route.get('/logout',authController.postLogout);
 
 route.get('/register',isGuest.auth,authController.getRegister);
 route.post('/register',authController.postRegister);
