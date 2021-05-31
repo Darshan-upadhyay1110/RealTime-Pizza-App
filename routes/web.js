@@ -4,7 +4,7 @@ const homeController = require('../App/http/controllers/homeController');
 const cartController = require('../App/http/controllers/customers/cartController');
 const orderController = require('../App/http/controllers/customers/orderController')
 const adminOrderController = require('../App/http/controllers/admin/orderController');
-
+const errorController = require('../App/http/controllers/errorController');
 
 //Middelwear for url verificationa nd authantication
 const isGuest = require('../App/http/middlewares/guest');
@@ -36,5 +36,8 @@ route.get('/customer/orders/:id',isAuth.auth,orderController.getStatusOfPizza)
 //admin routes
 route.get('/admin/orders',adminAuth.auth,adminOrderController.getAdminOrders);
 route.post('/admin/order/status',adminAuth.auth,adminOrderController.postUpdateStatusAdmin);
+
+//errors
+route.get('/errors/404',errorController.error404);
 
 module.exports = route;

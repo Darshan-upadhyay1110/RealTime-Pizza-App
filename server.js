@@ -16,13 +16,13 @@ const app = express();
 
 
 // Database connection
-const MONGODB_URI = 'mongodb+srv://Darshan_1110:Darshan1110@cluster0.r1wui.mongodb.net/Pizza';
+
 
 
 
 //session store in db
 const store = new MongoDbStore({
-  uri: MONGODB_URI,
+  uri: process.env.MONGODB_URI,
   collection: "sessions",
 });
 
@@ -72,6 +72,9 @@ app.set("view engine", "ejs");
 //route
 const webroutes = require("./routes/web");
 app.use(webroutes);
+app.use((req,res)=>{
+  res.status(404).render('errors/404');
+})
 
 const PORT = process.env.PORT || 3000;
 
@@ -79,7 +82,7 @@ const PORT = process.env.PORT || 3000;
 
 
 mongoose
-  .connect(MONGODB_URI)
+  .connect(process.env.MONGODB_URI)
   .then((result) => {
    const server =  app.listen(PORT, () => {
         console.log(`I am Server at ${PORT}`);

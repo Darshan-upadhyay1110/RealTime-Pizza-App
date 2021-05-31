@@ -24,7 +24,6 @@ exports.postOrder = (req, res, next) => {
         req.flash("success", "Order Placed Successfull");
         delete req.session.cart;
         //Emit
-  
         const eventEmmiter  = req.app.get('eventEmmiter')
         eventEmmiter.emit('orderPlaced',placedOrder)
         return res.redirect("/customer/orders");

@@ -109,7 +109,7 @@ if(order)
 //order_efbgiewubefninfdusiisnx - nameOfScoketRoom on server
 
 let adminPath = window.location.pathname
-// console.log(adminPath);
+// console.log(adminPxath);
 if(adminPath.includes('admin')){
   admin.initAdmin(socket);
   socket.emit('join','adminRoom');
