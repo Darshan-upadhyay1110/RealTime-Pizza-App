@@ -2027,8 +2027,7 @@ socket.on('orderUpdated', function (data) {
     text: "Order Updated",
     progressBar: false //layout:'topLeft'
 
-  }).show();
-  console.log(data);
+  }).show(); // console.log(data);
 });
 
 /***/ }),

@@ -41,6 +41,7 @@ exports.getCustomerOrders = async (req, res, next) => {
     { sort: { 'createdAt': -1 } } )
   // console.log(orders);
   res.header('Cache-Control','no-cache,private,no-store,must-revalidate,pre-check=0,post-check=0,max-stale=0')
+  console.log(orders);
   res.render('customers/orders', { orders: orders, moment: moment })
   
 };

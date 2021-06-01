@@ -25,7 +25,11 @@
                 <% orders.forEach((order) => { %>
                 <tr>
                     <td class="border px-4 py-2">
-                        <a class="link" href="/customer/orders/<%= order._id %>"><%= order._id %></a>
+                        <% if(order.status === 'completed') { %> 
+                      <del> <a class="link" href="/customer/orders/<%= order._id %>"><%= order._id %></a></del> 
+                        <% } else { %>
+                            <a class="link" href="/customer/orders/<%= order._id %>"><%= order._id %></a>
+                        <% } %>  
                     </td>
                     <td class="border px-4 py-2">
                         <%= order.phone %>

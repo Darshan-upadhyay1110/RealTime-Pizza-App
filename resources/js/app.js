@@ -140,5 +140,5 @@ socket.on('orderUpdated',(data)=>{
     progressBar: false,
     //layout:'topLeft'
   }).show();
-  console.log(data);
+  // console.log(data);
 })
