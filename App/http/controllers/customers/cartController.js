@@ -29,33 +29,31 @@ exports.updateCart = (req, res, next) => {
 };
 
 exports.updateRemoveCart = (req, res, next) => {
-    let temp = req.session.cart.items[req.body.item._id];
-    
-req.session.cart.totalQty = req.session.cart.totalQty - 1;
-temp.qty = temp.qty-1;
-//   console.log(req.body.qty);
+  let temp = req.session.cart.items[req.body.item._id];
+
+  req.session.cart.totalQty = req.session.cart.totalQty - 1;
+  temp.qty = temp.qty - 1;
+  //   console.log(req.body.qty);
   req.session.cart.totalPrice =
     req.session.cart.totalPrice - req.body.item.price;
-if(temp.qty <= 0)
-{
+  if (temp.qty <= 0) {
     console.log("deleted");
     delete req.session.cart.items[req.body.item._id];
     // location.reload();
+  }
+  if (req.session.cart.totalQty == 0 || req.session.cart.totalPrice == 0) {
+    delete req.session.cart;
 
-}
-if(req.session.cart.totalQty == 0 || req.session.cart.totalPrice == 0){
-    delete req.session.cart
-    
     return res.json({
-        totalPrice :0,
-        totalQty : 0
+      totalPrice: 0,
+      totalQty: 0,
     });
-}
-  
+  }
+
   return res.json({
     totalQty: req.session.cart.totalQty,
     pqty: temp.qty,
     TotalPrice: req.session.cart.totalPrice,
-    singlePizzaPrice:temp.qty*temp.item.price
+    singlePizzaPrice: temp.qty * temp.item.price,
   });
 };
