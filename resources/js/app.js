@@ -8,6 +8,8 @@ const admin = require("./admin");
 
 let addToCart = document.querySelectorAll(".add-to-cart");
 // console.log(addToCart);
+let cartRmv = document.querySelectorAll(".cartRmv");
+// console.log(cartRmv);
 let pizzaCounter = document.getElementById("pizzaCounter");
 
 let updateCart = (cartAddedPizza) => {
@@ -44,6 +46,74 @@ addToCart.forEach((btn) => {
   });
 });
 
+
+let removeFromCart = (cartRemovedPizza) => {
+  axios
+    .post("/updateRemove-cart", cartRemovedPizza)
+    .then((res) => {
+      // console.log(res);
+
+      if(res.data.totalPrice == 0 || res.data.totalQty == 0){
+        location.href = '/cart';
+      }
+      console.log(res.data.pqty);
+      if(res.data.pqty == 0){
+        
+        location.reload();
+        // res.redirect("/");
+        // console.log("reload");
+      }
+      // console.log(res);
+
+
+      pizzaCounter.innerText = res.data.totalQty;
+      let id = cartRemovedPizza.item._id;
+      let id1 = document.getElementById(id);
+      
+      // console.log(id1);
+      // console.log(cartRemovedPizza);
+      // console.log(id);
+      let id1child = id1.childNodes[0];
+      // console.log(id1child);
+      id1child.nodeValue = res.data.pqty + " pcs";
+      let TotalPrice = document.getElementById("TotalPrice");
+      // console.log(TotalPrice);
+      TotalPrice.innerText = res.data.TotalPrice;
+      let temp = 'TP'+id;
+      // console.log(temp);
+      let singlePizzaPrice = document.getElementById(temp)
+      singlePizzaPrice.innerText = res.data.singlePizzaPrice
+
+
+      new Noty({
+        type: "success",
+        timeout: 800,
+        text: "Item Removed from cart",
+        progressBar: false,
+        //layout:'topLeft'
+      }).show();
+    })
+    .catch((err) => {
+      console.log(err);
+      new Noty({
+        type: "error",
+        timeout: 1000,
+        text: "Something went wrong",
+        progressBar: false,
+      }).show();
+    });
+};
+cartRmv.forEach((btn)=>{
+  btn.addEventListener("click",(e)=>{
+    // console.log(e);
+    let cartRemvPizza = JSON.parse(btn.dataset.pizzrmv)
+    removeFromCart(cartRemvPizza)
+    // console.log(cartRemvPizza);
+   
+    
+
+  })
+})
 const alertMsg = document.querySelector("#success-alert");
 if (alertMsg) {
   setTimeout(() => {

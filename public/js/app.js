@@ -1920,6 +1920,8 @@ var admin = __webpack_require__(/*! ./admin */ "./resources/js/admin.js");
 
 var addToCart = document.querySelectorAll(".add-to-cart"); // console.log(addToCart);
 
+var cartRmv = document.querySelectorAll(".cartRmv"); // console.log(cartRmv);
+
 var pizzaCounter = document.getElementById("pizzaCounter");
 
 var updateCart = function updateCart(cartAddedPizza) {
@@ -1949,6 +1951,63 @@ addToCart.forEach(function (btn) {
     var cartPizza = JSON.parse(btn.dataset.pizza); // console.log(cartPizza);
 
     updateCart(cartPizza);
+  });
+});
+
+var removeFromCart = function removeFromCart(cartRemovedPizza) {
+  axios.post("/updateRemove-cart", cartRemovedPizza).then(function (res) {
+    // console.log(res);
+    if (res.data.totalPrice == 0 || res.data.totalQty == 0) {
+      location.href = '/cart';
+    }
+
+    console.log(res.data.pqty);
+
+    if (res.data.pqty == 0) {
+      location.reload(); // res.redirect("/");
+      // console.log("reload");
+    } // console.log(res);
+
+
+    pizzaCounter.innerText = res.data.totalQty;
+    var id = cartRemovedPizza.item._id;
+    var id1 = document.getElementById(id); // console.log(id1);
+    // console.log(cartRemovedPizza);
+    // console.log(id);
+
+    var id1child = id1.childNodes[0]; // console.log(id1child);
+
+    id1child.nodeValue = res.data.pqty + " pcs";
+    var TotalPrice = document.getElementById("TotalPrice"); // console.log(TotalPrice);
+
+    TotalPrice.innerText = res.data.TotalPrice;
+    var temp = 'TP' + id; // console.log(temp);
+
+    var singlePizzaPrice = document.getElementById(temp);
+    singlePizzaPrice.innerText = res.data.singlePizzaPrice;
+    new Noty({
+      type: "success",
+      timeout: 800,
+      text: "Item Removed from cart",
+      progressBar: false //layout:'topLeft'
+
+    }).show();
+  })["catch"](function (err) {
+    console.log(err);
+    new Noty({
+      type: "error",
+      timeout: 1000,
+      text: "Something went wrong",
+      progressBar: false
+    }).show();
+  });
+};
+
+cartRmv.forEach(function (btn) {
+  btn.addEventListener("click", function (e) {
+    // console.log(e);
+    var cartRemvPizza = JSON.parse(btn.dataset.pizzrmv);
+    removeFromCart(cartRemvPizza); // console.log(cartRemvPizza);
   });
 });
 var alertMsg = document.querySelector("#success-alert");

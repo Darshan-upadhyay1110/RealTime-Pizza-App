@@ -27,6 +27,7 @@ route.post('/register',authController.postRegister);
 
 route.get('/cart',cartController.getCart);
 route.post('/update-cart',cartController.updateCart);
+route.post('/updateRemove-cart',cartController.updateRemoveCart);
 
 
 //customer routes

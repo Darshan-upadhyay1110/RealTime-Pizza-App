@@ -52,8 +52,20 @@ section.hero{
     &:hover{
         background: $primary-hover;
     }
+    &:focus{
+        outline: none;
+    }
+    
 }
-
+span button{
+    background: $red;
+    &:hover{
+        background: rgb(136, 0, 0);
+    }
+    &:focus{
+        outline: none;
+    }
+}
 section.cart{
 background: $secondary;
 .amount{

@@ -325,6 +325,19 @@ section.hero {
 .btn-primary:hover {
   background: #b23301;
 }
+.btn-primary:focus {
+  outline: none;
+}
+
+span button {
+  background: #f50707;
+}
+span button:hover {
+  background: #880000;
+}
+span button:focus {
+  outline: none;
+}
 
 section.cart {
   background: #F8F8F8;
