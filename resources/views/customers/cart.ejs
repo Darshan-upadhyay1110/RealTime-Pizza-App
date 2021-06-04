@@ -32,7 +32,7 @@
             <%  if(user) { %>
             <div>
                 <form class="mt-12" action="/order" method="POST">
-                    <input class="border border-grey-400 p-2 w-1/2 mb-4" type="text" name="phone" id="" placeholder="Phone Number">
+                    <input class="border border-grey-400 p-2 w-1/2 mb-4" type="text" name="phone" id="" placeholder="Phone Number" maxlength="10">
                     <input class="border border-grey-400 p-2 w-1/2" type="text" name="address" id="" placeholder="Address">
                     <div>
                         <button type="submit" class="btn-primary px-6 py-2 rounded-full text-white font-bold mt-6">Order Now</button>
