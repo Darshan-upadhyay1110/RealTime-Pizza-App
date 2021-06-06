@@ -9,6 +9,7 @@
 ```jsx
  npm run dev
 ```
+- If any one wants to test plz contact me for admin side functionality to see  real time changes :
 
 **Here is  some glimpse of my project**
 
